@@ -1,21 +1,12 @@
 import {ACTIONS,VIEW_CONTEXT,VIEW_REDUX} from "../constants";
+import {getData} from "../utils";
 
-export const updateAction = ()=>({
-	type:ACTIONS.update,
-	payload:true
-})
+export const updateAction = ()=>async dispatch=>{
+	const payload = await getData();
 
-export const contextTableAction = ()=>({
-	type:ACTIONS.changeTable,
-	payload:{
-		value:VIEW_CONTEXT
-	}
-})
-
-export const reduxTableAction = ()=>({
-	type:ACTIONS.changeTable,
-	payload:{
-		value:VIEW_REDUX
-	}
-})
+	dispatch({
+		type:ACTIONS.update,
+		payload
+	})
+}
 

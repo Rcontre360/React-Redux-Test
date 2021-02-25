@@ -8,7 +8,7 @@ import {getData} from "./utils";
 import {store} from "./store";
 import {MainContext} from "./context";
 import {MainContainer} from "./styledComponents";
-import {FinalTable} from "./components";
+import {UsingContextTable,UsingReduxTable} from "./components";
 import {VIEW_CONTEXT,VIEW_REDUX} from "./constants";
 
 class App extends React.Component{
@@ -20,26 +20,19 @@ class App extends React.Component{
 	}
 
 	async refreshData(){
-		const data = await getData();
-		const fewData = Object.keys(data).slice(0,10);
-			
+		const {cryptoCurrency,currencyFields} = await getData();
+		this.setState({cryptoCurrency,currencyFields});
+	}
+
+	setTable(){
+		const view = this.state.view;
 		this.setState({
-			cryptoCurrency:fewData.map(name=>({name,...data[name]})),
-			currencyFields:["name",...Object.keys(data[fewData[0]])]
-		});
+			view:view===VIEW_CONTEXT?VIEW_REDUX:VIEW_CONTEXT
+		})
 	}
 
 	render(){
 		const viewContext = this.state.view===VIEW_CONTEXT
-		const btnColor = viewContext?"primary":"secondary";
-		const CustomBtn = ()=>
-			<Button 
-				variant="contained" 
-				color={btnColor} 
-				onClick={this.refreshData.bind(this)}
-			>
-			Refresh data
-			</Button>
 
 		return(
 		<MainContainer>
@@ -47,15 +40,25 @@ class App extends React.Component{
 				value={{
 					cryptoCurrency:this.state.cryptoCurrency,
 					currencyFields:this.state.currencyFields,
+					update:this.refreshData.bind(this)
 				}}
 			>
 			<Provider store={store}>
 
 				<h1>{this.state.view}</h1>
-				<FinalTable 
-					view={this.state.view} 
-					Button={CustomBtn}
-				/>
+				<Button 
+					variant="contained" 
+					color="secondary"
+					onClick={this.setTable.bind(this)}
+				>{`See table with ${viewContext?VIEW_REDUX:VIEW_CONTEXT}`}
+				</Button>
+				<hr/>
+				{
+					viewContext?
+					<UsingContextTable />
+					:
+					<UsingReduxTable data={this.state.cryptoCurrency}/>
+				}
 
 			</Provider>
 			</MainContext.Provider>

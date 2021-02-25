@@ -11,45 +11,34 @@ import {BaseTable} from "./baseTable";
 import {mapStateToProps} from "../redux/functions";
 import {VIEW_CONTEXT} from "../constants";
 
-export const FinalTable = props=>{
-	const {children,Button,view} = props;
-	
-	return(
-	<React.Fragment>
-		<BaseTable>
-		{
-			view===VIEW_CONTEXT?
-			UsingContextTable,
-			UsingReduxTable
-		}
-		</BaseTable>	
-		<Button/>
-	</React.Fragment>
-	);
-}
-
-const UsingContextTable = props=>{
-	const {Button,update} = props;
-	const {cryptoCurrency,currencyFields} = useContext(MainContext);
+export const UsingContextTable = props=>{
+	const {cryptoCurrency,currencyFields,update} = useContext(MainContext);
 
 	return (
 	<React.Fragment>
-		<BaseHead data={currencyFields}/>
-		<TableBody>
-			<FinalTable>
-			{
-				cryptoCurrency.map((obj,id)=>
-				<BaseRow data={Object.values(obj)} key={id}/>
-				)
-			}
-			</FinalTable>
-		</TableBody>
+		<BaseTable>
+			<BaseHead data={currencyFields}/>
+			<TableBody>
+				{
+					cryptoCurrency.map((obj,id)=>
+					<BaseRow data={Object.values(obj)} key={id}/>
+					)
+				}
+			</TableBody>
+		</BaseTable>	
+		<Button 
+			variant="contained" 
+			color="primary"
+			onClick={update}
+		>
+			Refresh data
+		</Button>
 	</React.Fragment>
 	);
 }
-
 const ReduxTable = props=>{
-
+	const {updateAction,data} = props;
+	
 	return(
 	<React.Fragment>
 		<BaseTable>
@@ -57,12 +46,19 @@ const ReduxTable = props=>{
 			<TableBody>
 				<BaseRow/>
 			</TableBody>
-		</BaseTable>
+		</BaseTable>	
+		<Button 
+			variant="contained" 
+			color="primary"
+			onClick={()=>updateAction()}
+		>
+			Refresh data
+		</Button>
 	</React.Fragment>	
 	);
 }
 
-const UsingReduxTable = connect(
+export const UsingReduxTable = connect(
 	mapStateToProps,
 	{updateAction}
 )(ReduxTable);

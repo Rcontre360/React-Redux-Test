@@ -1,12 +1,11 @@
 import {ACTIONS} from "../constants";
 
-export default (state={}, action)=> {
+export default async (state={}, action)=> {
   switch (action.type) {
     case ACTIONS.udpate:
-      return action.payload
-    case ACTIONS.changeTable:
-      return { ...state, view: action.value }
-    default:
-      return state
+    	console.log(action)
+	    return {data:action.payload}
+	default:
+	    return state
   }
 }
