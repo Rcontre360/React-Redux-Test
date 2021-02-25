@@ -20,6 +20,10 @@ class App extends React.Component{
 		view:VIEW_CONTEXT,
 	}
 
+	componentDidMount(){
+		this.refreshData()
+	}
+
 	async refreshData(){
 		const {cryptoCurrency,currencyFields} = await getData();
 		this.setState({cryptoCurrency,currencyFields});

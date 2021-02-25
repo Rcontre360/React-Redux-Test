@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 const classes = makeStyles({
   table: {
     minWidth: 650,
+    maxWidth:100
   },
 });
 /*
@@ -22,9 +23,6 @@ Redux
 4 - Title "data context" "data redux"
 		   "name"."last" "name"."last"
 */
-const createArrObj = obj=>{
-	return Object.values(obj).slice(0,10);
-}
 
 export const BaseTable = props=>{
 	const {children,data} = props;
