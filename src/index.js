@@ -4,13 +4,23 @@ import axios from "axios";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Provider,connect } from 'react-redux';
+import styled from "styled-components";
 
 import {getData} from "./utils";
 import {store} from "./store";
 import {MainContext} from "./context";
-import {MainContainer} from "./styledComponents";
 import {UsingContextTable,UsingReduxTable} from "./components";
 import {VIEW_CONTEXT,VIEW_REDUX} from "./constants";
+
+const MainContainer = styled.main`
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:center;
+	&>*{
+		text-align:center;
+	}
+`
 
 class App extends React.Component{
 

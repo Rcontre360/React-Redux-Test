@@ -12,6 +12,10 @@ import {mapStateToProps} from "../redux/functions";
 import {store} from "../store";
 import {VIEW_CONTEXT} from "../constants";
 
+/*
+UsingContextTable:Component with data depending on context updates.
+*/
+
 export const UsingContextTable = props=>{
 	const {cryptoCurrency,currencyFields,update} = useContext(MainContext);
 
@@ -38,6 +42,9 @@ export const UsingContextTable = props=>{
 	);
 }
 
+/*
+	ReduxTable:Component with props update depending on Redux async update
+*/
 
 const ReduxTable = props=>{
 	const {updateAction,cryptoCurrency,currencyFields} = props;
