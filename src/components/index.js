@@ -7,13 +7,18 @@ import {BaseRow} from "./baseRow";
 import {BaseTable} from "./baseTable";
 
 export const UsingContextTable = props=>{
-	const {cryptoCurrency,currencyNames} = useContext(MainContext);
+	const {cryptoCurrency,currencyFields} = useContext(MainContext);
+	console.log(cryptoCurrency,currencyFields)
 
 	return (
 		<BaseTable>
-			<BaseHead data={currencyNames}/>
+			<BaseHead data={currencyFields}/>
 			<TableBody>
-				<BaseRow data={cryptoCurrency}/>
+			{
+				cryptoCurrency.map((obj,id)=>
+				<BaseRow data={Object.values(obj)} key={id}/>
+				)
+			}
 			</TableBody>
 		</BaseTable>	
 	);

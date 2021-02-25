@@ -12,6 +12,7 @@ export const BaseRow = props=>{
 		&& 
 		data.map((element,id)=>
 			<TableCell 
+				key={id}
 				{...cellProps} 
 			>
 				{element}
