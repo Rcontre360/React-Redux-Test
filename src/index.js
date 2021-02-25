@@ -2,6 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import Button from '@material-ui/core/Button';
+import { Provider,connect } from 'react-redux';
+
+import {getData} from "./utils";
+import {store} from "./store";
 import {MainContext} from "./context";
 import {MainContainer} from "./styledComponents";
 import {UsingContextTable,UsingReduxTable} from "./components";
@@ -15,22 +19,14 @@ class App extends React.Component{
 		view:VIEW_CONTEXT,
 	}
 
-	refreshData(){
-		axios.get("https://poloniex.com/public?command=returnTicker"
-		).then(({data})=>{
-			/*
-			instead of apply slice twice to the initial big input, we store it in a variable and apply slice only once.
-			*/
-			const fewData = Object.keys(data).slice(0,10);
-			this.setState({
-				cryptoCurrency:fewData.map(name=>{
-					return {name,...data[name]}
-				}),
-				currencyFields:["name",...Object.keys(data[fewData[0]])]
-			});
-		}).catch(err=>
-			console.log("ERR",err)
-		);
+	async refreshData(){
+		const data = await getData();
+		const fewData = Object.keys(data).slice(0,10);
+			
+		this.setState({
+			cryptoCurrency:fewData.map(name=>({name,...data[name]})),
+			currencyFields:["name",...Object.keys(data[fewData[0]])]
+		});
 	}
 
 	render(){
@@ -45,6 +41,8 @@ class App extends React.Component{
 					currencyFields:this.state.currencyFields
 				}}
 			>
+			<Provider store={store}>
+
 				<h1>{this.state.view}</h1>
 				<UsingContextTable data={this.state.cryptoCurrency}/>
 				<Button 
@@ -54,10 +52,12 @@ class App extends React.Component{
 				>
 					Refresh data
 				</Button>
+
+			</Provider>
 			</MainContext.Provider>
 		</MainContainer>
 		);
 	}
 }
 
-ReactDOM.render(<App/>,document.getElementById("root"));
+ReactDOM.render(connect()(<App/>),document.getElementById("root"));
