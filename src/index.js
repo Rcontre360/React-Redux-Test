@@ -8,7 +8,7 @@ import {getData} from "./utils";
 import {store} from "./store";
 import {MainContext} from "./context";
 import {MainContainer} from "./styledComponents";
-import {UsingContextTable,UsingReduxTable} from "./components";
+import {FinalTable} from "./components";
 import {VIEW_CONTEXT,VIEW_REDUX} from "./constants";
 
 class App extends React.Component{
@@ -32,26 +32,30 @@ class App extends React.Component{
 	render(){
 		const viewContext = this.state.view===VIEW_CONTEXT
 		const btnColor = viewContext?"primary":"secondary";
+		const CustomBtn = ()=>
+			<Button 
+				variant="contained" 
+				color={btnColor} 
+				onClick={this.refreshData.bind(this)}
+			>
+			Refresh data
+			</Button>
 
 		return(
 		<MainContainer>
 			<MainContext.Provider
 				value={{
 					cryptoCurrency:this.state.cryptoCurrency,
-					currencyFields:this.state.currencyFields
+					currencyFields:this.state.currencyFields,
 				}}
 			>
 			<Provider store={store}>
 
 				<h1>{this.state.view}</h1>
-				<UsingContextTable data={this.state.cryptoCurrency}/>
-				<Button 
-					variant="contained" 
-					color={btnColor}
-					onClick={this.refreshData.bind(this)}
-				>
-					Refresh data
-				</Button>
+				<FinalTable 
+					view={this.state.view} 
+					Button={CustomBtn}
+				/>
 
 			</Provider>
 			</MainContext.Provider>
@@ -60,4 +64,4 @@ class App extends React.Component{
 	}
 }
 
-ReactDOM.render(connect()(<App/>),document.getElementById("root"));
+ReactDOM.render(<App/>,document.getElementById("root"));
