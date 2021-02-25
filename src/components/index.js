@@ -9,6 +9,7 @@ import {BaseHead} from "./baseHead";
 import {BaseRow} from "./baseRow";
 import {BaseTable} from "./baseTable";
 import {mapStateToProps} from "../redux/functions";
+import {store} from "../store";
 import {VIEW_CONTEXT} from "../constants";
 
 export const UsingContextTable = props=>{
@@ -36,15 +37,21 @@ export const UsingContextTable = props=>{
 	</React.Fragment>
 	);
 }
+
+
 const ReduxTable = props=>{
-	const {updateAction,data} = props;
-	
+	const {updateAction,cryptoCurrency,currencyFields} = props;
+
 	return(
 	<React.Fragment>
 		<BaseTable>
-			<BaseHead data={data}/>
+			<BaseHead data={currencyFields}/>
 			<TableBody>
-				<BaseRow/>
+				{
+					cryptoCurrency.map((obj,id)=>
+					<BaseRow data={Object.values(obj)} key={id}/>
+					)
+				}
 			</TableBody>
 		</BaseTable>	
 		<Button 

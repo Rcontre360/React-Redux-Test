@@ -7,8 +7,8 @@ export const getData = async ()=>{
 		).then(({data})=>{
 			const fewData = Object.keys(data).slice(0,10);
 			resolve({
-				cryptoCurrency:fewData.map(name=>({name,...data[name]})),
-				currencyFields:["name",...Object.keys(data[fewData[0]])]
+				cryptoCurrency:fewData.map(name=>({name,last:data[name].last})),
+				currencyFields:["name","last"]
 			})
 		}).catch(err=>{
 			resolve({})

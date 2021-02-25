@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { Provider,connect } from 'react-redux';
 
 import {getData} from "./utils";
@@ -43,9 +44,10 @@ class App extends React.Component{
 					update:this.refreshData.bind(this)
 				}}
 			>
-			<Provider store={store}>
 
-				<h1>{this.state.view}</h1>
+				<Typography variant="h2" component="h2">
+				  {this.state.view}
+				</Typography>
 				<Button 
 					variant="contained" 
 					color="secondary"
@@ -59,12 +61,14 @@ class App extends React.Component{
 					:
 					<UsingReduxTable data={this.state.cryptoCurrency}/>
 				}
-
-			</Provider>
 			</MainContext.Provider>
 		</MainContainer>
 		);
 	}
 }
 
-ReactDOM.render(<App/>,document.getElementById("root"));
+ReactDOM.render(
+<Provider store={store}>
+	<App/>
+</Provider>,
+document.getElementById("root"));
